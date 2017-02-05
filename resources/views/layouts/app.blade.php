@@ -79,5 +79,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script type="text/javascript">
+    $('#information').show();
+    $('#authentication').hide();
+    $('#tcpip').hide();
+    $('#ssid').hide();
+    $("#btn-information").on("click" ,function(){
+      $('#information').show();
+      $('#authentication').hide();
+      $('#tcpip').hide();
+      $('#ssid').hide();
+    });
+    $("#btn-authentication").on("click" ,function(){
+      $('#information').hide();
+      $('#authentication').show();
+      $('#tcpip').hide();
+      $('#ssid').hide();
+    });
+    $("#btn-tcpip").on("click" ,function(){
+      $('#information').hide();
+      $('#authentication').hide();
+      $('#tcpip').show();
+      $('#ssid').hide();
+    });
+    $("#btn-ssid").on("click" ,function(){
+      $('#information').hide();
+      $('#authentication').hide();
+      $('#tcpip').hide();
+      $('#ssid').show();
+    });
+    </script>
 </body>
 </html>

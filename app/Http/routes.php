@@ -16,12 +16,12 @@ Route::get('/', function () {
 });
 
 Route::get('mm', function (){
-	
+
 	$ssh = new \phpseclib\Net\SSH2('8.0.0.100');
     if (!$ssh->login('root', '123456')) {
          exit('Login Failed');
     }
- 
+
      $a = $ssh->exec('dmesg | grep board=');
      $s = substr($a, strpos($a, '=')+1,15);
      echo 'Connected to '.$s;
@@ -29,8 +29,8 @@ Route::get('mm', function (){
      $ssh->exec('uci set wireless.guest.ssid=MMMMMM');
      $ssh->exec('uci commit');
      echo 'Set ssid success!.';
-     
-     
+
+
 });
 Route::get('/addap/{mac}/{ip}', 'AccesspointController@addap');
 
@@ -38,10 +38,12 @@ Route::get('/count/{user}', 'AccesspointController@countAp');
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@viewap');
 
-Route::get('/main', 'HomeController@viewap');
+Route::get('/manage/{mac}', 'HomeController@manage');
 
 Route::get('/register_ap', 'HomeController@register_ap_post');
 
 Route::post('/register_ap', 'HomeController@register_ap_post');
+
+Route::post('/set_root_pass', 'HomeController@set_root_pass');

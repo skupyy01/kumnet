@@ -15,27 +15,29 @@
                 				<tr>
                 					<th>Name</th>
                 					<th>Mac address</th>
+                          <th>Manage</th>
                 				</tr>
                 			</thead>
 		                    @foreach($access_point as $ap)
-		                    	
+
 		                    	<tr>
 		                    		<td>{{ $ap->alias }}</td>
 		                    		<td>{{ $ap->mac }}</td>
+                            <td><a href="{{ url('/manage/'.$ap->mac) }}" class="btn btn-info"><i class="fa fa-wrench" aria-hidden="true"></i> Manage</a></td>
 		                    	</tr>
 		                    @endforeach
 		                </table>
 		                <a href="{{ url('/register_ap') }}" class="btn btn-warning">Add</a>
 		                @else
 		                <div class="row">
-						
+
 		                	<p>You don't have an Access Point</p>
 		                	<a href="{{ url('/register_ap') }}" class="btn btn-warning">Add</a>
 		                </div>
-		                	
+
 		                @endif
                 	</div>
-                    
+
                 </div>
             </div>
         </div>

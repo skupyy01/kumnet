@@ -36,8 +36,8 @@ class HomeController extends Controller
         }else{
             $aps = null;
         }
-        
-        
+
+
         return view('viewap')->withAccessPoint($aps);
     }
 
@@ -55,7 +55,7 @@ class HomeController extends Controller
         if(is_null($mac)){
             return view('register_ap')->withAccessPoints($access_points);
         }else{
-        
+
         if(Accesspoint::where('mac','=',$mac)->exists() > 0){
             if(Accesspoint::where('mac','=',$mac)->whereNull('owner')->exists() > 0){
                 $msg = 'free';
@@ -72,7 +72,33 @@ class HomeController extends Controller
             return view('register_ap')->withMessage($msg)->withAccessPoints($access_points);
         }
         }
-        
-        
+
+
+    }
+    public function manage($mac){
+      $listap = Accesspoint::where('mac','=',$mac)->where('owner','=',Auth::user()->email);
+      if($listap->exists() > 0){
+        $ssh = new \phpseclib\Net\SSH2($listap->first()->vpn_ip);
+          if (!$ssh->login('root', '123456')) {
+               exit('Login Failed');
+          }
+
+           $model = $ssh->exec('dmesg | grep board=');
+           $machine = $ssh->exec('cat /proc/cpuinfo | grep machine');
+           $machine = substr($machine, strpos($machine, ':')+1,strpos($machine, ' ')-2);
+           $model = substr($model, strpos($model, '=')+1,15);
+           $public_ip = $ssh->exec('wget -qO- http://ipecho.net/plain ; echo');
+           $private_ip = $ssh->exec("ifconfig br-lan | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'");
+           $subnet_mask = $ssh->exec("ifconfig br-lan | grep 'Mask:'| cut -d: -f4 | awk '{ print $1}'");
+           $gate_way = $ssh->exec("route -n | grep 'br-lan' | cut -d: -f4 | awk '{ print $2}' | grep -v 0.0.0.0");
+           return view('manage')->withAccessPoint($listap->first())->withModel($model)->withMachine($machine)->withPublicIp($public_ip)->withPrivateIp($private_ip)
+           ->withSubnetMask($subnet_mask)->withGateway($gate_way);
+      }else{
+        return redirect('/home');
+      }
+    }
+
+    public function set_root_pass(){
+      return redirect('/home');
     }
 }
