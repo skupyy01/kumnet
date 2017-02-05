@@ -39,3 +39,9 @@ Route::get('/count/{user}', 'AccesspointController@countAp');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/main', 'HomeController@viewap');
+
+Route::get('/register_ap', 'HomeController@register_ap_post');
+
+Route::post('/register_ap', 'HomeController@register_ap_post');

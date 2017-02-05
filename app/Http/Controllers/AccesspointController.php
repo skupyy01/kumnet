@@ -35,7 +35,7 @@ class AccesspointController extends Controller
     }
 
     public function countAp($user){
-    	$aps = Accesspoint::where('owner','=',$user).get();
+    	$aps = Accesspoint::where('owner','=',$user)->get();
     	foreach ($aps as $ap) {
     		echo $ap->mac;
     	}
